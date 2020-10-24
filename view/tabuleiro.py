@@ -9,7 +9,8 @@ bigRectangle = c.create_rectangle(10, 10, 835,835,outline='black',width=2)
 
 def lancamento():
     n=int(dado.configure('text')[4])+1
-    dado.configure(text=str(n))
+    dado.configure(text=str(n))
+
 
 for y in range(3):
     for x in range(6):
