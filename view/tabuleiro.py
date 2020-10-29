@@ -7,7 +7,10 @@ c = Canvas(root, width=1170, height=845)
 c.pack()
 bigRectangle = c.create_rectangle(10, 10, 835,835,outline='black',width=2)
 
-
+def inicia():
+    game_rules.novoJogo()
+    updateJogador()
+    
 def lancamento():
     global dado
     n = game_rules.rolaDado() 
@@ -20,7 +23,7 @@ def updateJogador():
     turno.configure(text='A Jogar: ' + str(n))
     
 def drawBoard():
-    global dado, turno
+    global dado, turno, novoJogo
     for y in range(3):
         for x in range(6):
             if y == 1 and x != 0 or y == 0 and x == 1:
@@ -70,7 +73,7 @@ def drawBoard():
     c.create_polygon([505, 340, 340+(505-340)/2, 340+(505-340)/2, 505, 505], outline='black', fill='yellow', width=2)
     c.create_polygon([340, 505, 340+(505-340)/2, 340+(505-340)/2, 505, 505], outline='black', fill='blue', width=2)
 
-    novoJogo = Button(text='Novo Jogo', height = 3, width = 20, background='SteelBlue1', activebackground='SteelBlue3')
+    novoJogo = Button(text='Novo Jogo', height = 3, width = 20, command=inicia, background='SteelBlue1', activebackground='SteelBlue3')
     w = c.create_window(927.5,120, window=novoJogo,anchor=W)
     
     carregarJogo = Button(text='Carregar Jogo', height = 3, width = 20, background='SteelBlue1', activebackground='SteelBlue3')
@@ -79,7 +82,7 @@ def drawBoard():
     salvar = Button(text='Salvar', height = 3, width = 20, background='CadetBlue1', activebackground='SteelBlue3')
     w = c.create_window(927.5,290, window=salvar,anchor=W)
     
-    turno = Label(text='A Jogar: ' + str(game_rules.novoJogo()), height = 3, width = 20)
+    turno = Label(text='A Jogar: ', height = 3, width = 20)
     w = c.create_window(927.5,375, window=turno,anchor=W)
     
     dado = Label(text='0', height = 3, width = 20)
