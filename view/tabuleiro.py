@@ -8,6 +8,9 @@ c.pack()
 bigRectangle = c.create_rectangle(10, 10, 835,835,outline='gray4',width=2)
 
 def inicia():
+    global lancaDado, salvar
+    lancaDado.configure(state = NORMAL)
+    salvar.configure(state = NORMAL)
     game_rules.novoJogo()
     updateJogador()
     
@@ -30,7 +33,7 @@ def updateJogador():
     c.create_rectangle([980.5,443,1014.5, 477], outline=cores[(n-1)], width=5)
     
 def drawBoard():
-    global dado, turno, novoJogo
+    global dado, turno, novoJogo, salvar, lancaDado
     for y in range(3):
         for x in range(6):
             if y == 1 and x != 0 or y == 0 and x == 1:
@@ -86,7 +89,7 @@ def drawBoard():
     carregarJogo = Button(text='Carregar Jogo', height = 3, width = 20, background='SteelBlue1', activebackground='SteelBlue3')
     w = c.create_window(927.5,205, window=carregarJogo,anchor=W)
     
-    salvar = Button(text='Salvar', height = 3, width = 20, background='CadetBlue1', activebackground='SteelBlue3')
+    salvar = Button(text='Salvar', height = 3, width = 20, background='CadetBlue1', activebackground='SteelBlue3', state = DISABLED)
     w = c.create_window(927.5,290, window=salvar,anchor=W)
     
     turno = Label(text='A Jogar: ', height = 3, width = 20)
@@ -98,6 +101,6 @@ def drawBoard():
     '''img = PhotoImage(file='dado_6.png')
     i = c.create_image(927.5,460,image=img, anchor=W)'''
     
-    lancaDado = Button(text='Lançar Dado', height = 3, width = 20, command=lancamento, background='CadetBlue1', activebackground='SteelBlue3')
+    lancaDado = Button(text='Lançar Dado', height = 3, width = 20, command=lancamento, background='CadetBlue1', activebackground='SteelBlue3', state = DISABLED)
     w = c.create_window(927.5,545, window=lancaDado,anchor=W)
     mainloop()
