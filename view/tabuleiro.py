@@ -12,15 +12,22 @@ def inicia():
     updateJogador()
     
 def lancamento():
-    global dado
+    global dado, img
     n = game_rules.rolaDado() 
-    dado.configure(text=str(n))
+    #dado.configure(text=str(n))
+    print("n= ", n)
+    foto = 'dado_' + str(n) + '.png'
+    img = PhotoImage(file=foto)
+    i = c.create_image(997.5,460,image=img)
+    
     updateJogador()
 
 def updateJogador():
     global turno
+    cores = ['red', 'green', 'yellow', 'blue']
     n = game_rules.vez
     turno.configure(text='A Jogar: ' + str(n))
+    c.create_rectangle([980.5,443,1014.5, 477], outline=cores[(n-1)], width=5)
     
 def drawBoard():
     global dado, turno, novoJogo
@@ -85,8 +92,11 @@ def drawBoard():
     turno = Label(text='A Jogar: ', height = 3, width = 20)
     w = c.create_window(927.5,375, window=turno,anchor=W)
     
-    dado = Label(text='0', height = 3, width = 20)
-    w = c.create_window(927.5,460, window=dado,anchor=W)
+    #dado = Label(text='0', height = 3, width = 20)
+    #w = c.create_window(927.5,460, window=dado,anchor=W)
+
+    '''img = PhotoImage(file='dado_6.png')
+    i = c.create_image(927.5,460,image=img, anchor=W)'''
     
     lancaDado = Button(text='Lançar Dado', height = 3, width = 20, command=lancamento, background='CadetBlue1', activebackground='SteelBlue3')
     w = c.create_window(927.5,545, window=lancaDado,anchor=W)
