@@ -9,8 +9,8 @@ bigRectangle = c.create_rectangle(10, 10, 835,835,outline='gray4',width=2)
 
 def inicia():
     global lancaDado, salvar
-    lancaDado.configure(state = NORMAL)
-    salvar.configure(state = NORMAL)
+    lancaDado.configure(state = NORMAL, background='LightBlue1', activebackground='LightBlue3')
+    salvar.configure(state = NORMAL, background='LightBlue1', activebackground='LightBlue3')
     game_rules.novoJogo()
     updateJogador()
     
@@ -22,11 +22,12 @@ def lancamento():
     foto = 'dado_' + str(n) + '.png'
     img = PhotoImage(file=foto)
     i = c.create_image(997.5,460,image=img)
+    desenha()
     
     updateJogador()
 
 def updateJogador():
-    global turno
+    global turno, cores
     cores = ['red4', 'dark green', 'goldenrod1', 'midnight blue']
     n = game_rules.vez
     turno.configure(text='A Jogar: ' + str(n))
@@ -83,24 +84,28 @@ def drawBoard():
     c.create_polygon([505, 340, 340+(505-340)/2, 340+(505-340)/2, 505, 505], outline='gray4', fill='goldenrod1', width=2)
     c.create_polygon([340, 505, 340+(505-340)/2, 340+(505-340)/2, 505, 505], outline='gray4', fill='midnight blue', width=2)
 
-    novoJogo = Button(text='Novo Jogo', height = 3, width = 20, command=inicia, background='SteelBlue1', activebackground='SteelBlue3')
+    novoJogo = Button(text='Novo Jogo', height = 3, width = 20, command=inicia, background='LightBlue2', activebackground='LightBlue3')
     w = c.create_window(927.5,120, window=novoJogo,anchor=W)
     
-    carregarJogo = Button(text='Carregar Jogo', height = 3, width = 20, background='SteelBlue1', activebackground='SteelBlue3')
+    carregarJogo = Button(text='Carregar Jogo', height = 3, width = 20, background='LightBlue2', activebackground='LightBlue3')
     w = c.create_window(927.5,205, window=carregarJogo,anchor=W)
     
-    salvar = Button(text='Salvar', height = 3, width = 20, background='CadetBlue1', activebackground='SteelBlue3', state = DISABLED)
+    salvar = Button(text='Salvar', height = 3, width = 20, background='gainsboro', state = DISABLED)
     w = c.create_window(927.5,290, window=salvar,anchor=W)
     
     turno = Label(text='A Jogar: ', height = 3, width = 20)
     w = c.create_window(927.5,375, window=turno,anchor=W)
     
-    #dado = Label(text='0', height = 3, width = 20)
-    #w = c.create_window(927.5,460, window=dado,anchor=W)
-
-    '''img = PhotoImage(file='dado_6.png')
-    i = c.create_image(927.5,460,image=img, anchor=W)'''
-    
-    lancaDado = Button(text='Lançar Dado', height = 3, width = 20, command=lancamento, background='CadetBlue1', activebackground='SteelBlue3', state = DISABLED)
+    lancaDado = Button(text='Lançar Dado', height = 3, width = 20, command=lancamento, background='gainsboro', state = DISABLED)
     w = c.create_window(927.5,545, window=lancaDado,anchor=W)
     mainloop()
+
+def desenha():
+    global turno, cores
+    cores = ['red4', 'dark green', 'goldenrod1', 'midnight blue']
+    n = game_rules.vez
+
+    x = 1
+    y = 0
+    c.create_oval(x*55+75,y*55+350,55+55*(x+1),330+55*(y+1),outline='gray4',width=2,fill=cores[(n-1)])
+
