@@ -105,7 +105,7 @@ def desenha():
     cores = ['red4', 'dark green', 'goldenrod1', 'midnight blue']
     n = game_rules.vez
 
-    x = 1
+    x = 0
     y = 0
     c.create_oval(x*55+75,y*55+350,55+55*(x+1),330+55*(y+1),outline='gray4',width=2,fill=cores[(n-1)])
 
