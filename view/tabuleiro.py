@@ -1,9 +1,13 @@
 from tkinter import *
 from model import game_rules
+from controller import event_handler
+
+xis = 0
 root = Tk()
 root.geometry('1170x845+410+130')
 root.title('Ludo')
 c = Canvas(root, width=1170, height=845)
+c.bind('<ButtonRelease-1>', event_handler.click)
 c.pack()
 bigRectangle = c.create_rectangle(10, 10, 835,835,outline='gray4',width=2)
 
@@ -13,6 +17,7 @@ def inicia():
     salvar.configure(state = NORMAL, background='LightBlue1', activebackground='LightBlue3')
     game_rules.novoJogo()
     updateJogador()
+    desenha()
     
 def lancamento():
     global dado, img
@@ -22,7 +27,7 @@ def lancamento():
     foto = 'dado_' + str(n) + '.png'
     img = PhotoImage(file=foto)
     i = c.create_image(997.5,460,image=img)
-    desenha()
+#    desenha()
     
     updateJogador()
 
@@ -101,11 +106,23 @@ def drawBoard():
     mainloop()
 
 def desenha():
-    global turno, cores
+    global turno, cores, xis
     cores = ['red4', 'dark green', 'goldenrod1', 'midnight blue']
     n = game_rules.vez
+    
+#    for cor in game_rules.pecasDic.values():
+#        x = cor.casaX
+#        y = cor.casaY
+#
+#        c.create_oval(55*(x-1) + 15, 55*(y-1) + 15, 55*(x-1) + 60, 55*(y-1) + 60,outline='gray4',width=2,fill=cores[(n-1)])
 
-    x = 0
-    y = 0
-    c.create_oval(x*55+75,y*55+350,55+55*(x+1),330+55*(y+1),outline='gray4',width=2,fill=cores[(n-1)])
+    for cor in game_rules.pecasDic:
+        for peca in cor:
+            x = peca.casaX
+            y = peca.casaY
+            
+            c.create_oval(55*(x-1) + 15, 55*(y-1) + 15, 55*(x-1) + 60, 55*(y-1) + 60,outline='gray4',width=2,fill=cores[xis])
+        
+        xis += 1
+            
 

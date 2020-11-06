@@ -1,8 +1,28 @@
-__all__ = ['novoJogo', 'rolaDado']
+__all__ = ['novoJogo', 'rolaDado', 'pecasDic', 'vez']
 
 import random
 
 consecutivos = 0
+
+class Peca:
+    def __init__(self, casaX, casaY):
+        self.casaX = casaX
+        self.casaY = casaY
+
+amarelo = Peca(14, 9)
+vermelho = Peca(2, 7)
+vermelho2 = Peca(3, 7)
+verde = Peca(9, 2)
+azul = Peca(7, 14)
+
+pecasDic = [[vermelho, vermelho2], [verde], [amarelo], [azul]]
+
+#pecasDic = {
+#  "vermelho": vermelho,
+#  "verde": verde,
+#  "amarelo": amarelo,
+#  "azul": azul
+#}
 
 def novoJogo():
     global vez
