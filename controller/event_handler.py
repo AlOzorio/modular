@@ -1,7 +1,13 @@
+__all__ = ['click', 'pos']
+
 from tkinter import *
 from model import game_rules
+from view import tabuleiro
+
+pos = [None, None]
 
 def click(event):
+    global pos
     x = event.x
     y = event.y
     
@@ -12,6 +18,12 @@ def click(event):
     
     for peca in game_rules.pecasDic[current]:
         if peca.casaX == casaX and peca.casaY == casaY:
-            print(True)
-            
+            print('alguma coisa')
+            pos = [casaX, casaY]
+            tabuleiro.CheckPeca()
+            return True
+    print('alguma outra coisa')
+    pos = [None, None]
+    tabuleiro.CheckPeca()
+    return False
     

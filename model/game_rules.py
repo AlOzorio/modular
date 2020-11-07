@@ -5,17 +5,18 @@ import random
 consecutivos = 0
 
 class Peca:
-    def __init__(self, casaX, casaY):
+    def __init__(self, casaX, casaY, tag):
         self.casaX = casaX
         self.casaY = casaY
+        self.tag = tag
 
-amarelo = Peca(14, 9)
-vermelho = Peca(2, 7)
-vermelho2 = Peca(3, 7)
-verde = Peca(9, 2)
-azul = Peca(7, 14)
+amarelo = Peca(14, 9, "amarelo")
+vermelho1 = Peca(2, 7, "vermelho1")
+vermelho2 = Peca(7, 2, "vermelho2")
+verde = Peca(9, 2, "verde")
+azul = Peca(7, 14, "azul")
 
-pecasDic = [[vermelho, vermelho2], [verde], [amarelo], [azul]]
+pecasDic = [[vermelho1, vermelho2], [verde], [amarelo], [azul]]
 
 #pecasDic = {
 #  "vermelho": vermelho,
@@ -54,6 +55,9 @@ def check6(resultado):
             vez = 1
         else:
             vez += 1
+
+        
+    
 
 
 

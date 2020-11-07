@@ -11,6 +11,101 @@ c.bind('<ButtonRelease-1>', event_handler.click)
 c.pack()
 bigRectangle = c.create_rectangle(10, 10, 835,835,outline='gray4',width=2)
 
+def CheckPeca():
+    global n
+    if(event_handler.pos == [None, None]):
+        print(False)
+    else:
+        for peca in game_rules.pecasDic[game_rules.vez - 1]:
+            if peca.casaX == event_handler.pos[0] and peca.casaY == event_handler.pos[1]:
+                posicoes = MovePeca(peca.casaX,peca.casaY,n)
+                c.move(peca.tag, posicoes[0] * 55, posicoes[1] * 55)
+                peca.casaX += posicoes[0]
+                peca.casaY += posicoes[1]
+        print(True)
+
+def MovePeca(posX, posY, dado):
+    moveX = 0
+    moveY = 0
+    if(posX <= 6 and posY == 7):
+        moveX = dado
+        if(posX + dado > 6):
+            moveX = 6 - posX + 1
+            moveY = 6 - posX - dado
+    elif(posX == 9 and posY <= 6):
+        moveY = dado
+        if(posY + dado > 6):
+            moveY = 6 - posY + 1
+            moveX = posY + dado - 6
+    elif(posX >= 10 and posY == 9):
+        moveX = -dado
+        if(posX - dado < 10):
+            moveX = 10 - posX - 1
+            moveY = dado + moveX + 1
+    elif(posX == 7 and posY >= 10):
+        moveY = -dado
+        if(posY - dado < 10):
+            moveX = - 10 + posY - dado 
+            moveY = - posY + 10 - 1
+    elif(posX == 7 and posY <= 6):
+        moveY = -dado
+        if(posY - dado < 1):
+            moveY = -posY + 1
+            moveX = dado + moveY
+            if(moveX > 2):
+                moveY += moveX - 2
+                moveX = 2
+    elif(posX >= 10 and posY == 7):
+        moveX = dado
+        if(posX + dado > 15):
+            moveX = 6 - (posX - 9)
+            moveY = dado - moveX
+            if(moveY > 2):
+                moveX -= moveY - 2
+                moveY = 2
+    elif(posX == 9 and posY >= 10):
+        moveY = dado
+        if(posY + dado > 15):
+            moveY = 6 - (posY - 9)
+            moveX = -(dado - moveY)
+            if(moveX < -2):
+                moveY += moveX + 2
+                moveX = -2
+    elif(posX <= 6 and posY == 9):
+        moveX = -dado
+        if(posX - dado < 1):
+            moveX = -posX + 1
+            moveY = - dado - moveX
+            if(moveY < -2):
+                moveX -= moveY + 2
+                moveY = -2
+    elif(posX == 8 and posY == 1):
+        if dado > 1:
+            moveX = 1
+            moveY = dado - 1
+        else:
+            moveX = 1
+    elif(posX == 15 and posY == 8):
+        if dado > 1:
+            moveY = 1
+            moveX = 1 - dado
+        else:
+            moveY = 1
+    elif(posX == 8 and posY == 15):
+        if dado > 1:
+            moveX = -1
+            moveY = 1 - dado
+        else:
+            moveX = -1
+    elif(posX == 1 and posY == 8):
+        if dado > 1:
+            moveY = -1
+            moveX = dado - 1
+        else:
+            moveY = -1
+    return [moveX, moveY]
+                    
+
 def inicia():
     global lancaDado, salvar
     lancaDado.configure(state = NORMAL, background='LightBlue1', activebackground='LightBlue3')
@@ -20,8 +115,8 @@ def inicia():
     desenha()
     
 def lancamento():
-    global dado, img
-    n = game_rules.rolaDado() 
+    global dado, img, n
+    n = game_rules.rolaDado()
     #dado.configure(text=str(n))
     print("n= ", n)
     foto = 'dado_' + str(n) + '.png'
@@ -109,7 +204,8 @@ def desenha():
     global turno, cores, xis
     cores = ['red4', 'dark green', 'goldenrod1', 'midnight blue']
     n = game_rules.vez
-    
+    contador = 0
+    tags = ["vermelho1", "vermelho2", "verde", "amarelo", "azul"]
 #    for cor in game_rules.pecasDic.values():
 #        x = cor.casaX
 #        y = cor.casaY
@@ -121,7 +217,8 @@ def desenha():
             x = peca.casaX
             y = peca.casaY
             
-            c.create_oval(55*(x-1) + 15, 55*(y-1) + 15, 55*(x-1) + 60, 55*(y-1) + 60,outline='gray4',width=2,fill=cores[xis])
+            c.create_oval(55*(x-1) + 15, 55*(y-1) + 15, 55*(x-1) + 60, 55*(y-1) + 60,outline='gray4',width=2,fill=cores[xis], tag = tags[contador])
+            contador += 1
         
         xis += 1
             
