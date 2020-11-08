@@ -1,3 +1,5 @@
+__all__ = ['c']
+
 from tkinter import *
 from model import game_rules
 from controller import event_handler
@@ -22,6 +24,8 @@ def CheckPeca():
                 c.move(peca.tag, posicoes[0] * 55, posicoes[1] * 55)
                 peca.casaX += posicoes[0]
                 peca.casaY += posicoes[1]
+                game_rules.lastMoved = peca
+                game_rules.Captura(peca)
         print(True)
 
 def MovePeca(posX, posY, dado):
