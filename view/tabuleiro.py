@@ -107,6 +107,26 @@ def MovePeca(posX, posY, dado):
             moveX = dado - 1
         else:
             moveY = -1
+    elif(posX <= 7 and posX > 1 and posY == 8):
+        if(posX + dado > 6):
+            moveX = 7 - posX
+        else:
+            moveX = dado
+    elif(posX >= 10 and posX < 15 and posY == 8):
+        if(posX - dado < 10):
+            moveX = 9 - posX
+        else:
+            moveX = -dado
+    elif(posX == 8 and posY > 1 and posY <= 7):
+        if(posY + dado > 6):
+            moveY = 7 - posY
+        else:
+            moveY = dado
+    elif(posX == 8 and posY >= 10 and posY < 15 ):
+        if(posY - dado < 10):
+            moveY = 9 - posY
+        else:
+            moveY = -dado
     return [moveX, moveY]
                     
 
