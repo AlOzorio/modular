@@ -13,6 +13,34 @@ c.bind('<ButtonRelease-1>', event_handler.click)
 c.pack()
 bigRectangle = c.create_rectangle(10, 10, 835,835,outline='gray4',width=2)
 
+def check5(dado, vez):
+#    print(vez)
+    if dado == 5:
+        if game_rules.pecasDic[vez - 1][0]:
+            if vez == 2:
+                movX = 9
+                movY = 2
+#                print("A")
+                
+            if vez == 3:
+                movX = 14
+                movY = 9
+#                print("B")
+                
+            if vez == 4:
+                movX = 7
+                movY = 14
+#                print("C")
+                
+            if vez == 1:
+                movX = 2
+                movY = 7
+#                print("D")
+        c.delete(game_rules.pecasDic[vez - 1][0].tag)
+        c.create_oval((movX-1) * 55 + 15, (movY-1) * 55 + 15, 55*(movX-1) + 60, 55*(movY-1) + 60, outline='gray4',width=2,fill=cores[vez - 1], tag = game_rules.pecasDic[vez - 1][0].tag)
+#            c.move(game_rules.pecasDic[vez - 1][0].tag, movX * 55 - game_rules.pecasDic[vez - 1][0].casaX * 55, game_rules.pecasDic[vez - 1][0].casaY * 55 - movY * 55)
+
+        
 def CheckPeca():
     global n
     if(event_handler.pos == [None, None]):
@@ -146,6 +174,7 @@ def inicia():
     
 def lancamento():
     global dado, img, n
+    updateJogador()
     n = game_rules.rolaDado()
     #dado.configure(text=str(n))
     print("n= ", n)
@@ -154,7 +183,7 @@ def lancamento():
     i = c.create_image(997.5,460,image=img)
 #    desenha()
     
-    updateJogador()
+    
 
 def updateJogador():
     global turno, cores

@@ -48,6 +48,7 @@ def novoJogo():
 def rolaDado():
     global vez
     resultado = random.randint(1,6)
+    tabuleiro.check5(resultado, vez)
     check6(resultado)
     return resultado
 
