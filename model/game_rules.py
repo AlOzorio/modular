@@ -8,18 +8,30 @@ consecutivos = 0
 lastMoved= None
 
 class Peca:
-    def __init__(self, casaX, casaY, tag):
+    def __init__(self, casaX, casaY, tag, posIni):
         self.casaX = casaX
         self.casaY = casaY
         self.tag = tag
+        self.posIni = posIni
 
-amarelo = Peca(14, 9, "amarelo")
-vermelho1 = Peca(2, 7, "vermelho1")
-vermelho2 = Peca(7, 2, "vermelho2")
-verde = Peca(9, 2, "verde")
-azul = Peca(7, 14, "azul")
+vermelho1 = Peca(1.85, 1.85, "vermelho1", [1.85, 1.85])
+vermelho2 = Peca(4.78, 1.85, "vermelho2", [4.78, 1.85])
+vermelho3 = Peca(1.85, 4.78, "vermelho3", [1.85, 4.78])
+vermelho4 = Peca(4.78, 4.78, "vermelho4", [4.78, 4.78])
+verde1 = Peca(9, 1.85, "verde1", [10.85, 1.85])
+verde2 = Peca(9, 1.85, "verde2", [13.78, 1.85])
+verde3 = Peca(9, 4.78, "verde3", [10.85, 4.78])
+verde4 = Peca(9, 4.78, "verde4", [13.78, 4.78])
+amarelo1 = Peca(14, 9, "amarelo1", [10.85, 10.85])
+amarelo2 = Peca(14, 9, "amarelo2", [13.78, 10.85])
+amarelo3 = Peca(14, 9, "amarelo3", [10.85, 13.78])
+amarelo4 = Peca(14, 9, "amarelo4", [13.78, 13.78])
+azul1 = Peca(7, 14, "azul1", [1.85, 10.85])
+azul2 = Peca(7, 14, "azul2", [4.78, 10.85])
+azul3 = Peca(7, 14, "azul3", [1.85, 13.78])
+azul4 = Peca(7, 14, "azul4", [4.78, 13.78])
 
-pecasDic = [[vermelho1, vermelho2], [verde], [amarelo], [azul]]
+pecasDic = [[vermelho1, vermelho2, vermelho3, vermelho4], [verde1, verde2, verde3, verde4], [amarelo1, amarelo2, amarelo3, amarelo4], [azul1, azul2, azul3, azul4]]
 
 #pecasDic = {
 #  "vermelho": vermelho,

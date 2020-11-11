@@ -20,111 +20,117 @@ def CheckPeca():
     else:
         for peca in game_rules.pecasDic[game_rules.vez - 1]:
             if peca.casaX == event_handler.pos[0] and peca.casaY == event_handler.pos[1]:
-                posicoes = MovePeca(peca.casaX,peca.casaY,n)
-                c.move(peca.tag, posicoes[0] * 55, posicoes[1] * 55)
-                peca.casaX += posicoes[0]
-                peca.casaY += posicoes[1]
+                peca.casaicoes = MovePeca(peca,n)
+                c.move(peca.tag, peca.posicoes[0] * 55, peca.posicoes[1] * 55)
+                peca.casaX += peca.posicoes[0]
+                peca.casaY += peca.posicoes[1]
                 game_rules.lastMoved = peca
                 game_rules.Captura(peca)
         print(True)
 
-def MovePeca(posX, posY, dado):
+
+def MovePeca(peca, dado):
     moveX = 0
     moveY = 0
-    if(posX <= 6 and posY == 7):
+    if(peca.casaX == peca.casaIni[0] and peca.casaY == peca.casaIni[1]):
+        print('entrou')
+        peca.casaX = 2
+        peca.casaY = 6
+        
+    if(peca.casaX <= 6 and peca.casaY == 7):
         moveX = dado
-        if(posX + dado > 6):
-            moveX = 6 - posX + 1
-            moveY = 6 - posX - dado
-    elif(posX == 9 and posY <= 6):
+        if(peca.casaX + dado > 6):
+            moveX = 6 - peca.casaX + 1
+            moveY = 6 - peca.casaX - dado
+    elif(peca.casaX == 9 and peca.casaY <= 6):
         moveY = dado
-        if(posY + dado > 6):
-            moveY = 6 - posY + 1
-            moveX = posY + dado - 6
-    elif(posX >= 10 and posY == 9):
+        if(peca.casaY + dado > 6):
+            moveY = 6 - peca.casaY + 1
+            moveX = peca.casaY + dado - 6
+    elif(peca.casaX >= 10 and peca.casaY == 9):
         moveX = -dado
-        if(posX - dado < 10):
-            moveX = 10 - posX - 1
+        if(peca.casaX - dado < 10):
+            moveX = 10 - peca.casaX - 1
             moveY = dado + moveX + 1
-    elif(posX == 7 and posY >= 10):
+    elif(peca.casaX == 7 and peca.casaY >= 10):
         moveY = -dado
-        if(posY - dado < 10):
-            moveX = - 10 + posY - dado 
-            moveY = - posY + 10 - 1
-    elif(posX == 7 and posY <= 6):
+        if(peca.casaY - dado < 10):
+            moveX = - 10 + peca.casaY - dado 
+            moveY = - peca.casaY + 10 - 1
+    elif(peca.casaX == 7 and peca.casaY <= 6):
         moveY = -dado
-        if(posY - dado < 1):
-            moveY = -posY + 1
+        if(peca.casaY - dado < 1):
+            moveY = -peca.casaY + 1
             moveX = dado + moveY
             if(moveX > 2):
                 moveY += moveX - 2
                 moveX = 2
-    elif(posX >= 10 and posY == 7):
+    elif(peca.casaX >= 10 and peca.casaY == 7):
         moveX = dado
-        if(posX + dado > 15):
-            moveX = 6 - (posX - 9)
+        if(peca.casaX + dado > 15):
+            moveX = 6 - (peca.casaX - 9)
             moveY = dado - moveX
             if(moveY > 2):
                 moveX -= moveY - 2
                 moveY = 2
-    elif(posX == 9 and posY >= 10):
+    elif(peca.casaX == 9 and peca.casaY >= 10):
         moveY = dado
-        if(posY + dado > 15):
-            moveY = 6 - (posY - 9)
+        if(peca.casaY + dado > 15):
+            moveY = 6 - (peca.casaY - 9)
             moveX = -(dado - moveY)
             if(moveX < -2):
                 moveY += moveX + 2
                 moveX = -2
-    elif(posX <= 6 and posY == 9):
+    elif(peca.casaX <= 6 and peca.casaY == 9):
         moveX = -dado
-        if(posX - dado < 1):
-            moveX = -posX + 1
+        if(peca.casaX - dado < 1):
+            moveX = -peca.casaX + 1
             moveY = - dado - moveX
             if(moveY < -2):
                 moveX -= moveY + 2
                 moveY = -2
-    elif(posX == 8 and posY == 1):
+    elif(peca.casaX == 8 and peca.casaY == 1):
         if dado > 1:
             moveX = 1
             moveY = dado - 1
         else:
             moveX = 1
-    elif(posX == 15 and posY == 8):
+    elif(peca.casaX == 15 and peca.casaY == 8):
         if dado > 1:
             moveY = 1
             moveX = 1 - dado
         else:
             moveY = 1
-    elif(posX == 8 and posY == 15):
+    elif(peca.casaX == 8 and peca.casaY == 15):
         if dado > 1:
             moveX = -1
             moveY = 1 - dado
         else:
             moveX = -1
-    elif(posX == 1 and posY == 8):
+    elif(peca.casaX == 1 and peca.casaY == 8):
         if dado > 1:
             moveY = -1
             moveX = dado - 1
         else:
             moveY = -1
-    elif(posX <= 7 and posX > 1 and posY == 8):
-        if(posX + dado > 6):
-            moveX = 7 - posX
+    elif(peca.casaX <= 7 and peca.casaX > 1 and peca.casaY == 8):
+        if(peca.casaX + dado > 6):
+            moveX = 7 - peca.casaX
         else:
             moveX = dado
-    elif(posX >= 10 and posX < 15 and posY == 8):
-        if(posX - dado < 10):
-            moveX = 9 - posX
+    elif(peca.casaX >= 10 and peca.casaX < 15 and peca.casaY == 8):
+        if(peca.casaX - dado < 10):
+            moveX = 9 - peca.casaX
         else:
             moveX = -dado
-    elif(posX == 8 and posY > 1 and posY <= 7):
-        if(posY + dado > 6):
-            moveY = 7 - posY
+    elif(peca.casaX == 8 and peca.casaY > 1 and peca.casaY <= 7):
+        if(peca.casaY + dado > 6):
+            moveY = 7 - peca.casaY
         else:
             moveY = dado
-    elif(posX == 8 and posY >= 10 and posY < 15 ):
-        if(posY - dado < 10):
-            moveY = 9 - posY
+    elif(peca.casaX == 8 and peca.casaY >= 10 and peca.casaY < 15 ):
+        if(peca.casaY - dado < 10):
+            moveY = 9 - peca.casaY
         else:
             moveY = -dado
     return [moveX, moveY]
@@ -229,7 +235,7 @@ def desenha():
     cores = ['red4', 'dark green', 'goldenrod1', 'midnight blue']
     n = game_rules.vez
     contador = 0
-    tags = ["vermelho1", "vermelho2", "verde", "amarelo", "azul"]
+    tags = ["vermelho1", "vermelho2", "vermelho3", "vermelho4", "verde1", "verde2", "verde3", "verde4", "amarelo1", "amarelo2", "amarelo3", "amarelo4", "azul1", "azul2", "azul3", "azul4"]
 #    for cor in game_rules.pecasDic.values():
 #        x = cor.casaX
 #        y = cor.casaY
@@ -238,8 +244,8 @@ def desenha():
 
     for cor in game_rules.pecasDic:
         for peca in cor:
-            x = peca.casaX
-            y = peca.casaY
+            x = peca.posIni[0]
+            y = peca.posIni[1]
             
             c.create_oval(55*(x-1) + 15, 55*(y-1) + 15, 55*(x-1) + 60, 55*(y-1) + 60,outline='gray4',width=2,fill=cores[xis], tag = tags[contador])
             contador += 1
