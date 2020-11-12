@@ -46,9 +46,12 @@ def CheckPeca():
     if(event_handler.pos == [None, None]):
         print(False)
     else:
-        for peca in game_rules.pecasDic[game_rules.vez - 1]:
+        for peca in game_rules.pecasDic[game_rules.vez - 2]:
+            print(peca.casaX)
+            print(event_handler.pos[0])
             if peca.casaX == event_handler.pos[0] and peca.casaY == event_handler.pos[1]:
-                peca.casaicoes = MovePeca(peca,n)
+                print('entrou')
+                peca.posicoes = MovePeca(peca,n)
                 c.move(peca.tag, peca.posicoes[0] * 55, peca.posicoes[1] * 55)
                 peca.casaX += peca.posicoes[0]
                 peca.casaY += peca.posicoes[1]
@@ -60,10 +63,6 @@ def CheckPeca():
 def MovePeca(peca, dado):
     moveX = 0
     moveY = 0
-    if(peca.casaX == peca.casaIni[0] and peca.casaY == peca.casaIni[1]):
-        print('entrou')
-        peca.casaX = 2
-        peca.casaY = 6
         
     if(peca.casaX <= 6 and peca.casaY == 7):
         moveX = dado

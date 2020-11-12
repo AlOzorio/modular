@@ -13,8 +13,11 @@ def click(event):
     
     casaX = ((x - 10) // 55) + 1
     casaY = ((y - 10) // 55) + 1
-    
-    current = game_rules.vez - 1
+
+    if game_rules.vez - 2 == -1:
+        current = 3
+    else:
+        current = game_rules.vez - 2
     
     for peca in game_rules.pecasDic[current]:
         if peca.casaX == casaX and peca.casaY == casaY:

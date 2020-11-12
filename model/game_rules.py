@@ -14,14 +14,14 @@ class Peca:
         self.tag = tag
         self.posIni = posIni
 
-vermelho1 = Peca(1.85, 1.85, "vermelho1", [1.85, 1.85])
-vermelho2 = Peca(4.78, 1.85, "vermelho2", [4.78, 1.85])
-vermelho3 = Peca(1.85, 4.78, "vermelho3", [1.85, 4.78])
-vermelho4 = Peca(4.78, 4.78, "vermelho4", [4.78, 4.78])
-verde1 = Peca(9, 1.85, "verde1", [10.85, 1.85])
-verde2 = Peca(9, 1.85, "verde2", [13.78, 1.85])
-verde3 = Peca(9, 4.78, "verde3", [10.85, 4.78])
-verde4 = Peca(9, 4.78, "verde4", [13.78, 4.78])
+vermelho1 = Peca(2, 7, "vermelho1", [1.85, 1.85])
+vermelho2 = Peca(2, 7, "vermelho2", [4.78, 1.85])
+vermelho3 = Peca(2, 7, "vermelho3", [1.85, 4.78])
+vermelho4 = Peca(2, 7, "vermelho4", [4.78, 4.78])
+verde1 = Peca(9, 2, "verde1", [10.85, 1.85])
+verde2 = Peca(9, 2, "verde2", [13.78, 1.85])
+verde3 = Peca(9, 2, "verde3", [10.85, 4.78])
+verde4 = Peca(9, 2, "verde4", [13.78, 4.78])
 amarelo1 = Peca(14, 9, "amarelo1", [10.85, 10.85])
 amarelo2 = Peca(14, 9, "amarelo2", [13.78, 10.85])
 amarelo3 = Peca(14, 9, "amarelo3", [10.85, 13.78])
