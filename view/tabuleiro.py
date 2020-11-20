@@ -14,7 +14,7 @@ c.pack()
 bigRectangle = c.create_rectangle(10, 10, 835,835,outline='gray4',width=2)
 
 def CheckPeca():
-    global n
+    global n, lancaDado
     if(event_handler.pos == [None, None]):
         print(False)
     else:
@@ -26,6 +26,9 @@ def CheckPeca():
                 peca.casaY = posicoes[1]
                 game_rules.lastMoved = peca
                 game_rules.Captura(peca)
+                game_rules.check6(n)
+                updateJogador()
+                lancaDado.configure(state = NORMAL)
         print(True)
 
 def MovePeca(peca, dado):
@@ -53,16 +56,17 @@ def inicia():
     desenha()
     
 def lancamento():
-    global dado, img, n
+    global dado, img, n, lancaDado
     n = game_rules.rolaDado()
     #dado.configure(text=str(n))
     print("n= ", n)
     foto = 'dado_' + str(n) + '.png'
     img = PhotoImage(file=foto)
     i = c.create_image(997.5,460,image=img)
+    lancaDado.configure(state = DISABLED)
 #    desenha()
     
-    updateJogador()
+    
 
 def updateJogador():
     global turno, cores
@@ -143,7 +147,7 @@ def desenha():
     cores = ['red4', 'dark green', 'goldenrod1', 'midnight blue']
     n = game_rules.vez
     contador = 0
-    tags = ["vermelho1", "vermelho2", "verde", "amarelo", "azul"]
+    tags = ["vermelho1", "vermelho2", "vermelho3", "vermelho4", "verde", "amarelo", "azul"]
 #    for cor in game_rules.pecasDic.values():
 #        x = cor.casaX
 #        y = cor.casaY
@@ -152,8 +156,8 @@ def desenha():
 
     for cor in game_rules.pecasDic:
         for peca in cor:
-            x = peca.casaX
-            y = peca.casaY
+            x = peca.posIni[0]
+            y = peca.posIni[1]
             
             c.create_oval(55*(x-1) + 15, 55*(y-1) + 15, 55*(x-1) + 60, 55*(y-1) + 60,outline='gray4',width=2,fill=cores[xis], tag = tags[contador])
             contador += 1
