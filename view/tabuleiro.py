@@ -14,7 +14,7 @@ c.pack()
 bigRectangle = c.create_rectangle(10, 10, 835,835,outline='gray4',width=2)
 
 def CheckPeca():
-    global n, lancaDado
+    global n, lancaDado, Dado1, Dado2, Dado3, Dado4, Dado5, Dado6
     if(event_handler.pos == [None, None]):
         print(False)
     else:
@@ -29,6 +29,12 @@ def CheckPeca():
                 game_rules.check6(n)
                 updateJogador()
                 lancaDado.configure(state = NORMAL)
+                Dado1.configure(state = NORMAL)
+                Dado2.configure(state = NORMAL)
+                Dado3.configure(state = NORMAL)
+                Dado4.configure(state = NORMAL)
+                Dado5.configure(state = NORMAL)
+                Dado6.configure(state = NORMAL)
         print(True)
 
 def MovePeca(peca, dado):
@@ -48,24 +54,38 @@ def MovePeca(peca, dado):
                     
 
 def inicia():
-    global lancaDado, salvar
+    global lancaDado, salvar, Dado1, Dado2, Dado3, Dado4, Dado5, Dado6
     lancaDado.configure(state = NORMAL, background='LightBlue1', activebackground='LightBlue3')
+    Dado1.configure(state = NORMAL, background='LightBlue1', activebackground='LightBlue3')
+    Dado2.configure(state = NORMAL, background='LightBlue1', activebackground='LightBlue3')
+    Dado3.configure(state = NORMAL, background='LightBlue1', activebackground='LightBlue3')
+    Dado4.configure(state = NORMAL, background='LightBlue1', activebackground='LightBlue3')
+    Dado5.configure(state = NORMAL, background='LightBlue1', activebackground='LightBlue3')
+    Dado6.configure(state = NORMAL, background='LightBlue1', activebackground='LightBlue3')
     salvar.configure(state = NORMAL, background='LightBlue1', activebackground='LightBlue3')
     game_rules.novoJogo()
     updateJogador()
     desenha()
     
-def lancamento():
-    global dado, img, n, lancaDado
-    n = game_rules.rolaDado()
+def lancamento(valor):
+    global dado, img, n, lancaDado, Dado1, Dado2, Dado3, Dado4, Dado5, Dado6
+    if(valor == None):
+        n = game_rules.rolaDado()
+    else:
+        n = valor
     #dado.configure(text=str(n))
     print("n= ", n)
     foto = 'dado_' + str(n) + '.png'
     img = PhotoImage(file=foto)
     i = c.create_image(997.5,460,image=img)
     lancaDado.configure(state = DISABLED)
+    Dado1.configure(state = DISABLED)
+    Dado2.configure(state = DISABLED)
+    Dado3.configure(state = DISABLED)
+    Dado4.configure(state = DISABLED)
+    Dado5.configure(state = DISABLED)
+    Dado6.configure(state = DISABLED)
 #    desenha()
-    
     
 
 def updateJogador():
@@ -76,7 +96,7 @@ def updateJogador():
     c.create_rectangle([980.5,443,1014.5, 477], outline=cores[(n-1)], width=5)
     
 def drawBoard():
-    global dado, turno, novoJogo, salvar, lancaDado
+    global dado, turno, novoJogo, salvar, lancaDado, Dado1, Dado2, Dado3, Dado4, Dado5, Dado6
     for y in range(3):
         for x in range(6):
             if y == 1 and x != 0 or y == 0 and x == 1:
@@ -138,8 +158,30 @@ def drawBoard():
     turno = Label(text='A Jogar: ', height = 3, width = 20)
     w = c.create_window(927.5,375, window=turno,anchor=W)
     
-    lancaDado = Button(text='Lançar Dado', height = 3, width = 20, command=lancamento, background='gainsboro', state = DISABLED)
+    lancaDado = Button(text='Lançar Dado', height = 3, width = 20, command=lambda:lancamento(None), background='gainsboro', state = DISABLED)
     w = c.create_window(927.5,545, window=lancaDado,anchor=W)
+
+    dados = Label(text='Escolha o dado: ', height = 3, width = 20)
+    w = c.create_window(927.5,600, window=dados,anchor=W)
+
+    Dado1 = Button(text='1', height = 3, width = 5, command=lambda:lancamento(1), background='gainsboro', state = DISABLED)
+    w = c.create_window(927.5,645, window=Dado1,anchor=W)
+
+    Dado2 = Button(text='2', height = 3, width = 5, command=lambda:lancamento(2), background='gainsboro', state = DISABLED)
+    w = c.create_window(977.5,645, window=Dado2,anchor=W)
+
+    Dado3 = Button(text='3', height = 3, width = 5, command=lambda:lancamento(3), background='gainsboro', state = DISABLED)
+    w = c.create_window(1027.5,645, window=Dado3,anchor=W)
+
+    Dado4 = Button(text='4', height = 3, width = 5, command=lambda:lancamento(4), background='gainsboro', state = DISABLED)
+    w = c.create_window(927.5,710, window=Dado4,anchor=W)
+
+    Dado5 = Button(text='5', height = 3, width = 5, command=lambda:lancamento(5), background='gainsboro', state = DISABLED)
+    w = c.create_window(977.5,710, window=Dado5,anchor=W)
+
+    Dado6 = Button(text='6', height = 3, width = 5, command=lambda:lancamento(6), background='gainsboro', state = DISABLED)
+    w = c.create_window(1027.5,710, window=Dado6,anchor=W)
+    
     mainloop()
 
 def desenha():
