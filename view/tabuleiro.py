@@ -1,4 +1,4 @@
-__all__ = ['c']
+__all__ = ['c', 'updateJogador', 'Enable']
 
 from tkinter import *
 from model import game_rules
@@ -13,8 +13,20 @@ c.bind('<ButtonRelease-1>', event_handler.click)
 c.pack()
 bigRectangle = c.create_rectangle(10, 10, 835,835,outline='gray4',width=2)
 
+def Enable():
+    global lancaDado, Dado1, Dado2, Dado3, Dado4, Dado5, Dado6
+    updateJogador()
+    lancaDado.configure(state = NORMAL)
+    Dado1.configure(state = NORMAL)
+    Dado2.configure(state = NORMAL)
+    Dado3.configure(state = NORMAL)
+    Dado4.configure(state = NORMAL)
+    Dado5.configure(state = NORMAL)
+    Dado6.configure(state = NORMAL)
+    print("enable")
+
 def CheckPeca():
-    global n, lancaDado, Dado1, Dado2, Dado3, Dado4, Dado5, Dado6
+    global n
     if(event_handler.pos == [None, None]):
         print(False)
     else:
@@ -27,14 +39,7 @@ def CheckPeca():
                 game_rules.lastMoved = peca
                 game_rules.Captura(peca)
                 game_rules.check6(n)
-                updateJogador()
-                lancaDado.configure(state = NORMAL)
-                Dado1.configure(state = NORMAL)
-                Dado2.configure(state = NORMAL)
-                Dado3.configure(state = NORMAL)
-                Dado4.configure(state = NORMAL)
-                Dado5.configure(state = NORMAL)
-                Dado6.configure(state = NORMAL)
+                Enable()
         print(True)
 
 def MovePeca(peca, dado):
@@ -85,6 +90,7 @@ def lancamento(valor):
     Dado4.configure(state = DISABLED)
     Dado5.configure(state = DISABLED)
     Dado6.configure(state = DISABLED)
+    game_rules.check5(n)
 #    desenha()
     
 
@@ -189,7 +195,7 @@ def desenha():
     cores = ['red4', 'dark green', 'goldenrod1', 'midnight blue']
     n = game_rules.vez
     contador = 0
-    tags = ["vermelho1", "vermelho2", "vermelho3", "vermelho4", "verde", "amarelo", "azul"]
+    tags = ["vermelho1", "vermelho2", "vermelho3", "vermelho4", "verde1", "verde2", "verde3", "verde4", "amarelo1", "amarelo2", "amarelo3", "amarelo4", "azul1", "azul2", "azul3", "azul4"]
 #    for cor in game_rules.pecasDic.values():
 #        x = cor.casaX
 #        y = cor.casaY
