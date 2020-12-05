@@ -18,12 +18,11 @@ def click(event):
     
     for peca in game_rules.pecasDic[current]:
         if peca.casaX == casaX and peca.casaY == casaY:
-            print('alguma coisa')
             pos = [casaX, casaY]
-            tabuleiro.CheckPeca()
+            tabuleiro.CheckPeca(peca)
             return True
-    print('alguma outra coisa')
     pos = [None, None]
-    tabuleiro.CheckPeca()
+    tabuleiro.CheckPeca(peca)
     return False
     
+

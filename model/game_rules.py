@@ -1,4 +1,4 @@
-__all__ = ['novoJogo', 'rolaDado', 'pecasDic', 'vez', 'Captura','lastMoved', 'check5']
+__all__ = ['novoJogo', 'rolaDado', 'pecasDic', 'vez', 'Captura','lastMoved', 'check5', 'CheckBarreira', 'CheckBarreiraSupremo']
 
 import random
 from view import tabuleiro
@@ -40,6 +40,47 @@ azul4 = Peca(4.78, 13.78, "azul4", 0, [4.78, 13.78], 3)
 
 pecasDic = [[vermelho1, vermelho2, vermelho3, vermelho4], [verde1, verde2, verde3, verde4], [amarelo1, amarelo2, amarelo3, amarelo4], [azul1, azul2, azul3, azul4]]
 
+def CheckBarreiraSupremo(resultado):
+    global vez
+    cont = 0
+    
+    for item in pecasDic[vez - 1]:
+        if item.casaX != item.posIni[0] or item.casaY != item.posIni[1]:
+            cont += 1
+            if CheckBarreira(item, resultado) == True:
+                cont -= 1
+    if cont == 0:
+        return True
+    return False
+
+def CheckBarreira(peca, resultado):
+    global vez, caminhoVermelho, caminhoVerde, caminhoAmarelo, caminhoAzul
+    cont = 0
+    
+    if vez == 1:
+        caminho = caminhoVermelho
+        
+    elif vez == 2:
+        caminho = caminhoVerde
+        
+    elif vez == 3:
+        caminho = caminhoAmarelo
+        
+    elif vez == 4:
+        caminho = caminhoAzul
+        
+        
+    for i in range(peca.casasAndadas + 1, peca.casasAndadas + resultado + 1):
+        for container in pecasDic:
+            for item in container:
+                if item.casaX == caminho[i][0] and item.casaY == caminho[i][1]:
+                    cont += 1
+            if cont >= 2:
+                return True
+            cont = 0
+    return False
+    
+    
 
 def novoJogo():
     global vez
@@ -124,6 +165,7 @@ def Captura(peao):
         for peca in jogadores:
             if peao.casaX == peca.casaX and peao.casaY == peca.casaY:
                 if peca not in pecasDic[vez-1]:
+                    print(vez)
                     if (peca.casaX == 7 and peca.casaY == 2) or (peca.casaX == 14 and peca.casaY == 7) or (peca.casaX == 9 and peca.casaY == 14) or (peca.casaX == 2 and peca.casaY == 9):
                         return
                     else:

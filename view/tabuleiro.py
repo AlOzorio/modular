@@ -25,22 +25,28 @@ def Enable():
     Dado6.configure(state = NORMAL)
     print("enable")
 
-def CheckPeca():
+def CheckPeca(peca):
     global n
     if(event_handler.pos == [None, None]):
         print(False)
     else:
-        for peca in game_rules.pecasDic[game_rules.vez - 1]:
-            if peca.casaX == event_handler.pos[0] and peca.casaY == event_handler.pos[1]:
-                posicoes = MovePeca(peca,n)
-                c.move(peca.tag, (posicoes[0] - peca.casaX) * 55, (posicoes[1] - peca.casaY) * 55)
-                peca.casaX = posicoes[0]
-                peca.casaY = posicoes[1]
-                game_rules.lastMoved = peca
-                game_rules.Captura(peca)
-                game_rules.check6(n)
-                Enable()
-        print(True)
+        if peca.casaX == event_handler.pos[0] and peca.casaY == event_handler.pos[1]:
+            if game_rules.CheckBarreiraSupremo(n) == False:
+                if game_rules.CheckBarreira(peca, n) == False:
+                    posicoes = MovePeca(peca,n)
+                    c.move(peca.tag, (posicoes[0] - peca.casaX) * 55, (posicoes[1] - peca.casaY) * 55)
+                    peca.casaX = posicoes[0]
+                    peca.casaY = posicoes[1]
+                    game_rules.lastMoved = peca
+                    game_rules.Captura(peca)
+                    game_rules.check6(n)
+            else:
+                if game_rules.vez == 4:
+                    game_rules.vez = 1
+                else:
+                    game_rules.vez += 1
+            Enable()
+    print(True)
 
 def MovePeca(peca, dado):
     peca.casasAndadas += dado
