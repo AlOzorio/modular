@@ -56,7 +56,7 @@ def CheckPeca(peca):
 
 def MovePeca(peca, dado):
     peca.casasAndadas += dado
-    if peca.casasAndadas > 58:
+    if peca.casasAndadas > 56:
         return [peca.casaX, peca.casaY]
 
     if peca.casasAndadas == -1:
