@@ -95,7 +95,6 @@ def CheckAbrigo(peca, resultado):
             for peao in jogadores:
                 if peao.casaX == abrigoAtual[0] and peao.casaY == abrigoAtual[1]:
                     cont += 1
-                    tabuleiro.desenhaAbrigo(peao, peca)
     if cont >= 2:
         return True
     
@@ -143,7 +142,6 @@ def CheckBarreira(peca, resultado):
                 for item in container:
                     if item.casaX == caminho[i][0] and item.casaY == caminho[i][1]:
                         cont += 1
-                        tabuleiro.desenhaBarreira(item)
                 if cont >= 2:
                     return True
                 cont = 0
