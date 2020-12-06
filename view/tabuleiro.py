@@ -1,6 +1,10 @@
-__all__ = ['c', 'updateJogador', 'Enable']
+__all__ = ['c', 'updateJogador', 'Enable', 'lancaDado', 'Dado1', 'Dado2', 'Dado3', 'Dado4', 'Dado5', 'Dado6']
 
 from tkinter import *
+from tkinter import ttk
+from tkinter import filedialog
+from tkinter.filedialog import asksaveasfile
+from tkinter.filedialog import askdirectory
 from model import game_rules
 from controller import event_handler
 
@@ -14,22 +18,20 @@ c.pack()
 bigRectangle = c.create_rectangle(10, 10, 835,835,outline='gray4',width=2)
 
 def Enable():
-    global lancaDado, Dado1, Dado2, Dado3, Dado4, Dado5, Dado6
+    global lancaDado, Dado1, Dado2, Dado3, Dado4, Dado5, Dado6, salvar
     updateJogador()
-    lancaDado.configure(state = NORMAL)
-    Dado1.configure(state = NORMAL)
-    Dado2.configure(state = NORMAL)
-    Dado3.configure(state = NORMAL)
-    Dado4.configure(state = NORMAL)
-    Dado5.configure(state = NORMAL)
-    Dado6.configure(state = NORMAL)
-    print("enable")
+    lancaDado.configure(state = NORMAL,background='LightBlue1', activebackground='LightBlue3')
+    Dado1.configure(state = NORMAL,background='LightBlue1', activebackground='LightBlue3')
+    Dado2.configure(state = NORMAL,background='LightBlue1', activebackground='LightBlue3')
+    Dado3.configure(state = NORMAL,background='LightBlue1', activebackground='LightBlue3')
+    Dado4.configure(state = NORMAL,background='LightBlue1', activebackground='LightBlue3')
+    Dado5.configure(state = NORMAL,background='LightBlue1', activebackground='LightBlue3')
+    Dado6.configure(state = NORMAL,background='LightBlue1', activebackground='LightBlue3')
+    salvar.configure(state = NORMAL,background='LightBlue1', activebackground='LightBlue3')
 
 def CheckPeca(peca):
     global n
-    if(event_handler.pos == [None, None]):
-        print(False)
-    else:
+    if event_handler.pos != [None, None]:
         if peca.casaX == event_handler.pos[0] and peca.casaY == event_handler.pos[1]:
             if game_rules.CheckBarreiraSupremo(n) == False:
                 if game_rules.CheckBarreira(peca, n) == False:
@@ -38,7 +40,11 @@ def CheckPeca(peca):
                     peca.casaX = posicoes[0]
                     peca.casaY = posicoes[1]
                     game_rules.lastMoved = peca
-                    game_rules.Captura(peca)
+                    game_rules.Captura(peca)                   
+                    if game_rules.CheckWin() == True:
+                        game_rules.SomaPontos()
+                        return
+        
                     game_rules.check6(n)
             else:
                 if game_rules.vez == 4:
@@ -46,7 +52,6 @@ def CheckPeca(peca):
                 else:
                     game_rules.vez += 1
             Enable()
-    print(True)
 
 def MovePeca(peca, dado):
     peca.casasAndadas += dado
@@ -65,6 +70,7 @@ def MovePeca(peca, dado):
                     
 
 def inicia():
+    print('alguma coisa\nalguma outra coisa\n')
     global lancaDado, salvar, Dado1, Dado2, Dado3, Dado4, Dado5, Dado6
     lancaDado.configure(state = NORMAL, background='LightBlue1', activebackground='LightBlue3')
     Dado1.configure(state = NORMAL, background='LightBlue1', activebackground='LightBlue3')
@@ -77,6 +83,21 @@ def inicia():
     game_rules.novoJogo()
     updateJogador()
     desenha()
+
+def Load():
+    data = [("text files","*.txt"),("all files", "*.*")]
+    input = filedialog.askopenfile(initialdir = ".", title = "Abrir arquivo", filetypes = data)
+    print(input)
+    game_rules.vez = int(input.readline())
+    Enable()
+    
+
+def Save():
+    data = [("text files","*.txt"),("all files", "*.*")]
+    file = asksaveasfile(title = "Salvar como", initialdir = ".", filetypes = data, defaultextension = ".txt")
+    #file.write(str(game_rules.pecasDic)+'\n')
+    file.write(str(game_rules.vez))
+    print(file)
     
 def lancamento(valor):
     global dado, img, n, lancaDado, Dado1, Dado2, Dado3, Dado4, Dado5, Dado6
@@ -84,8 +105,6 @@ def lancamento(valor):
         n = game_rules.rolaDado()
     else:
         n = valor
-    #dado.configure(text=str(n))
-    print("n= ", n)
     foto = 'dado_' + str(n) + '.png'
     img = PhotoImage(file=foto)
     i = c.create_image(997.5,460,image=img)
@@ -96,8 +115,9 @@ def lancamento(valor):
     Dado4.configure(state = DISABLED)
     Dado5.configure(state = DISABLED)
     Dado6.configure(state = DISABLED)
+    salvar.configure(state = DISABLED)
     game_rules.check5(n)
-#    desenha()
+
     
 
 def updateJogador():
@@ -108,7 +128,7 @@ def updateJogador():
     c.create_rectangle([980.5,443,1014.5, 477], outline=cores[(n-1)], width=5)
     
 def drawBoard():
-    global dado, turno, novoJogo, salvar, lancaDado, Dado1, Dado2, Dado3, Dado4, Dado5, Dado6
+    global dado, turno, novoJogo, salvar, lancaDado, Dado1, Dado2, Dado3, Dado4, Dado5, Dado6, salvar
     for y in range(3):
         for x in range(6):
             if y == 1 and x != 0 or y == 0 and x == 1:
@@ -161,10 +181,10 @@ def drawBoard():
     novoJogo = Button(text='Novo Jogo', height = 3, width = 20, command=inicia, background='LightBlue2', activebackground='LightBlue3')
     w = c.create_window(927.5,120, window=novoJogo,anchor=W)
     
-    carregarJogo = Button(text='Carregar Jogo', height = 3, width = 20, background='LightBlue2', activebackground='LightBlue3')
+    carregarJogo = Button(text='Carregar Jogo', height = 3, width = 20, command = Load, background='LightBlue2', activebackground='LightBlue3')
     w = c.create_window(927.5,205, window=carregarJogo,anchor=W)
     
-    salvar = Button(text='Salvar', height = 3, width = 20, background='gainsboro', state = DISABLED)
+    salvar = Button(text='Salvar', height = 3, width = 20, command = Save, background='gainsboro', state = DISABLED)
     w = c.create_window(927.5,290, window=salvar,anchor=W)
     
     turno = Label(text='A Jogar: ', height = 3, width = 20)
@@ -201,17 +221,13 @@ def desenha():
     cores = ['red4', 'dark green', 'goldenrod1', 'midnight blue']
     n = game_rules.vez
     contador = 0
+    xis = 0
     tags = ["vermelho1", "vermelho2", "vermelho3", "vermelho4", "verde1", "verde2", "verde3", "verde4", "amarelo1", "amarelo2", "amarelo3", "amarelo4", "azul1", "azul2", "azul3", "azul4"]
-#    for cor in game_rules.pecasDic.values():
-#        x = cor.casaX
-#        y = cor.casaY
-#
-#        c.create_oval(55*(x-1) + 15, 55*(y-1) + 15, 55*(x-1) + 60, 55*(y-1) + 60,outline='gray4',width=2,fill=cores[(n-1)])
 
     for cor in game_rules.pecasDic:
         for peca in cor:
-            x = peca.posIni[0]
-            y = peca.posIni[1]
+            x = peca.casaX
+            y = peca.casaY
             
             c.create_oval(55*(x-1) + 15, 55*(y-1) + 15, 55*(x-1) + 60, 55*(y-1) + 60,outline='gray4',width=2,fill=cores[xis], tag = tags[contador])
             contador += 1

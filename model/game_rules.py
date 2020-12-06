@@ -1,8 +1,9 @@
-__all__ = ['novoJogo', 'rolaDado', 'pecasDic', 'vez', 'Captura','lastMoved', 'check5', 'CheckBarreira', 'CheckBarreiraSupremo']
+__all__ = ['novoJogo', 'rolaDado', 'pecasDic', 'vez', 'Captura','lastMoved', 'check5', 'CheckBarreira', 'CheckBarreiraSupremo', 'CheckWin', 'SomaPontos']
 
 import random
 from view import tabuleiro
 from tkinter import *
+from tkinter import messagebox
 
 consecutivos = 0
 lastMoved= None
@@ -40,6 +41,38 @@ azul4 = Peca(4.78, 13.78, "azul4", 0, [4.78, 13.78], 3)
 
 pecasDic = [[vermelho1, vermelho2, vermelho3, vermelho4], [verde1, verde2, verde3, verde4], [amarelo1, amarelo2, amarelo3, amarelo4], [azul1, azul2, azul3, azul4]]
 
+def CheckWin():
+    global vez
+    fim = 0
+    for item in pecasDic[vez-1]:
+        if item.casasAndadas == 58:
+            fim += 1
+        if fim == 4:
+            tabuleiro.lancaDado.configure(state = DISABLED)
+            tabuleiro.Dado1.configure(state = DISABLED)
+            tabuleiro.Dado2.configure(state = DISABLED)
+            tabuleiro.Dado3.configure(state = DISABLED)
+            tabuleiro.Dado4.configure(state = DISABLED)
+            tabuleiro.Dado5.configure(state = DISABLED)
+            tabuleiro.Dado6.configure(state = DISABLED)
+            return True
+    return False
+            
+def SomaPontos():
+    soma = [['Vermelho: ',0], ['Verde: ', 0], ['Amarelo: ', 0], ['Azul: ', 0]]
+    
+    for jogador in pecasDic:
+        for peca in jogador:
+            soma[peca.cor][1] += peca.casasAndadas
+            
+    soma.sort(reverse = True, key = lambda x: x[1])
+    
+    msg = '\n 1º - ' + soma[0][0] + str(soma[0][1]) + '\n 2º - ' +soma[1][0] + str(soma[1][1]) + '\n 3º - ' + soma[2][0] + str(soma[2][1]) + '\n 4º - ' + soma[3][0] + str(soma[3][1])
+    messagebox.showinfo(title='Resultado',message=msg, icon='info')
+
+    
+        
+
 def CheckBarreiraSupremo(resultado):
     global vez
     cont = 0
@@ -69,15 +102,15 @@ def CheckBarreira(peca, resultado):
     elif vez == 4:
         caminho = caminhoAzul
         
-        
-    for i in range(peca.casasAndadas + 1, peca.casasAndadas + resultado + 1):
-        for container in pecasDic:
-            for item in container:
-                if item.casaX == caminho[i][0] and item.casaY == caminho[i][1]:
-                    cont += 1
-            if cont >= 2:
-                return True
-            cont = 0
+    if peca.casasAndadas + resultado + 1 < 58:
+        for i in range(peca.casasAndadas + 1, peca.casasAndadas + resultado + 1):
+            for container in pecasDic:
+                for item in container:
+                    if item.casaX == caminho[i][0] and item.casaY == caminho[i][1]:
+                        cont += 1
+                if cont >= 2:
+                    return True
+                cont = 0
     return False
     
     
@@ -98,7 +131,7 @@ def check6(resultado):
         consecutivos += 1
         if consecutivos == 3:
             consecutivos = 0
-            tabuleiro.c.move(lastMoved.tag, (lastMoved.posIni[0]-lastMoved.casaX)*55, (lastMoved.posIni[1]-lastMoved.casaY)*55) #precisa das contas certas
+            tabuleiro.c.move(lastMoved.tag, (lastMoved.posIni[0]-lastMoved.casaX)*55, (lastMoved.posIni[1]-lastMoved.casaY)*55)
             lastMoved.casaX = lastMoved.posIni[0]
             lastMoved.casaY = lastMoved.posIni[1]
             if vez == 4:
