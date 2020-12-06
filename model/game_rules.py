@@ -131,10 +131,11 @@ def check6(resultado):
         consecutivos += 1
         if consecutivos == 3:
             consecutivos = 0
-            tabuleiro.c.move(lastMoved.tag, (lastMoved.posIni[0]-lastMoved.casaX)*55, (lastMoved.posIni[1]-lastMoved.casaY)*55)
-            lastMoved.casaX = lastMoved.posIni[0]
-            lastMoved.casaY = lastMoved.posIni[1]
-            lastMoved.casasAndadas = -1
+            if lastMoved.casasAndadas < 58:
+                tabuleiro.c.move(lastMoved.tag, (lastMoved.posIni[0]-lastMoved.casaX)*55, (lastMoved.posIni[1]-lastMoved.casaY)*55)
+                lastMoved.casaX = lastMoved.posIni[0]
+                lastMoved.casaY = lastMoved.posIni[1]
+                lastMoved.casasAndadas = -1
             if vez == 4:
                 vez = 1
             else:
@@ -175,6 +176,7 @@ def check5(resultado):
                 peca.casaY = movY
                 peca.casasAndadas = 0
                 tabuleiro.c.create_oval((movX-1) * 55 + 15, (movY-1) * 55 + 15, 55*(movX-1) + 60, 55*(movY-1) + 60, outline='gray4',width=2,fill=cores[vez - 1], tag = peca.tag) 
+                Captura(peca)
                 if vez == 4:
                     vez = 1
                 else:
@@ -202,6 +204,14 @@ def Captura(peao):
                 if peca not in pecasDic[vez-1]:
                     print(vez)
                     if (peca.casaX == 7 and peca.casaY == 2) or (peca.casaX == 14 and peca.casaY == 7) or (peca.casaX == 9 and peca.casaY == 14) or (peca.casaX == 2 and peca.casaY == 9):
+                       return
+                    elif peca.cor == 0 and peca.casaX == 2 and peca.casaY == 7:
+                        return
+                    elif peca.cor == 1 and peca.casaX == 9 and peca.casaY == 2:
+                        return
+                    elif peca.cor == 2 and peca.casaX == 14 and peca.casaY == 9:
+                        return
+                    elif peca.cor == 3 and peca.casaX == 7 and peca.casaY == 14:
                         return
                     else:
                         tabuleiro.c.delete(peca.tag)

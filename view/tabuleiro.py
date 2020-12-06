@@ -36,15 +36,16 @@ def CheckPeca(peca):
             if game_rules.CheckBarreiraSupremo(n) == False:
                 if game_rules.CheckBarreira(peca, n) == False:
                     posicoes = MovePeca(peca,n)
-                    c.move(peca.tag, (posicoes[0] - peca.casaX) * 55, (posicoes[1] - peca.casaY) * 55)
-                    peca.casaX = posicoes[0]
-                    peca.casaY = posicoes[1]
-                    game_rules.lastMoved = peca
-                    game_rules.Captura(peca)                   
-                    if game_rules.CheckWin() == True:
-                        game_rules.SomaPontos()
-                        return
-        
+                    if posicoes != [peca.casaX, peca.casaY]:
+                        c.move(peca.tag, (posicoes[0] - peca.casaX) * 55, (posicoes[1] - peca.casaY) * 55)
+                        peca.casaX = posicoes[0]
+                        peca.casaY = posicoes[1]
+                        game_rules.lastMoved = peca
+                        game_rules.Captura(peca)                   
+                        if game_rules.CheckWin() == True:
+                            game_rules.SomaPontos()
+                            return
+            
                     game_rules.check6(n)
             else:
                 if game_rules.vez == 4:
@@ -55,8 +56,8 @@ def CheckPeca(peca):
 
 def MovePeca(peca, dado):
     peca.casasAndadas += dado
-    if peca.casasAndadas >= 58:
-        peca.casasAndadas = 58
+    if peca.casasAndadas > 58:
+        return [peca.casaX, peca.casaY]
 
     if peca.casasAndadas == -1:
         return peca.posIni
@@ -73,7 +74,6 @@ def MovePeca(peca, dado):
                     
 
 def inicia():
-    print('alguma coisa\nalguma outra coisa\n')
     global lancaDado, salvar, Dado1, Dado2, Dado3, Dado4, Dado5, Dado6
     lancaDado.configure(state = NORMAL, background='LightBlue1', activebackground='LightBlue3')
     Dado1.configure(state = NORMAL, background='LightBlue1', activebackground='LightBlue3')
@@ -85,6 +85,7 @@ def inicia():
     salvar.configure(state = NORMAL, background='LightBlue1', activebackground='LightBlue3')
     game_rules.novoJogo()
     updateJogador()
+    deleta()
     desenha()
 
 def Load():
@@ -249,5 +250,14 @@ def desenha():
             contador += 1
         
         xis += 1
+
+def deleta():
+    for cor in game_rules.pecasDic:
+        for peca in cor:
+            peca.casaX = peca.posIni[0]
+            peca.casaY = peca.posIni[1]
+            peca.casasAndadas = -1
+            c.delete(peca.tag)
+            
             
 
