@@ -1,4 +1,4 @@
-__all__ = ['novoJogo', 'rolaDado', 'pecasDic', 'vez', 'Captura','lastMoved', 'check5', 'CheckBarreira', 'CheckBarreiraSupremo', 'CheckWin', 'SomaPontos']
+__all__ = ['novoJogo', 'rolaDado', 'pecasDic', 'vez', 'Captura','lastMoved', 'check5', 'CheckBarreira', 'CheckSupremo', 'CheckWin', 'SomaPontos', 'CheckAbrigo']
 
 import random
 from view import tabuleiro
@@ -6,6 +6,8 @@ from tkinter import *
 from tkinter import messagebox
 
 consecutivos = 0
+abrigos = [[7,2], [14, 7], [9, 14], [2, 9], [2, 7], [9, 2], [14, 9], [7, 14]]
+
 lastMoved= None
 
 caminhoVermelho = [[2, 7],[3, 7],[4, 7],[5, 7],[6, 7],[7, 6],[7, 5],[7, 4],[7, 3],[7, 2],[7, 1],[8, 1],[9, 1],[9, 2],[9, 3],[9, 4],[9, 5],[9, 6],[10, 7],[11, 7],[12, 7],[13, 7],[14, 7],[15, 7],[15, 8],[15, 9],[14, 9],[13, 9],[12, 9],[11, 9],[10 , 9],[9, 10],[9, 11],[9, 12],[9, 13],[9, 14],[9, 15],[8, 15],[7, 15],[7, 14],[7, 13],[7, 12],[7, 11],[7, 10],[6, 9],[5, 9],[4, 9],[3, 9],[2, 9],[1, 9],[1, 8],[1, 7],[2, 7],[2, 8],[3, 8],[4, 8],[5, 8],[6, 8],[7, 8]]
@@ -70,19 +72,51 @@ def SomaPontos():
     msg = '\n 1º - ' + soma[0][0] + str(soma[0][1]) + '\n 2º - ' +soma[1][0] + str(soma[1][1]) + '\n 3º - ' + soma[2][0] + str(soma[2][1]) + '\n 4º - ' + soma[3][0] + str(soma[3][1])
     messagebox.showinfo(title='Resultado',message=msg, icon='info')
 
-    
-        
 
-def CheckBarreiraSupremo(resultado):
+def CheckAbrigo(peca, resultado):
     global vez
     cont = 0
     
+    if vez == 1:
+        caminho = caminhoVermelho
+        
+    elif vez == 2:
+        caminho = caminhoVerde
+        
+    elif vez == 3:
+        caminho = caminhoAmarelo
+        
+    elif vez == 4:
+        caminho = caminhoAzul
+        
+    if caminho[peca.casasAndadas + resultado] in abrigos:
+        abrigoAtual = caminho[peca.casasAndadas + resultado]
+        for jogadores in pecasDic:
+            for peca in jogadores:
+                if peca.casaX == abrigoAtual[0] and peca.casaY == abrigoAtual[1]:
+                    cont += 1
+    if cont >= 2:
+        return True
+    
+    return False
+    
+
+def CheckSupremo(resultado):
+    global vez
+    foraBarreira = 0
+    foraAbrigo = 0
+    
     for item in pecasDic[vez - 1]:
         if item.casaX != item.posIni[0] or item.casaY != item.posIni[1]:
-            cont += 1
+            foraBarreira += 1
+            foraAbrigo += 1
             if CheckBarreira(item, resultado) == True:
-                cont -= 1
-    if cont == 0:
+                foraBarreira -= 1
+                
+            if CheckAbrigo(item, resultado) == True:
+                foraAbrigo -= 1
+                
+    if foraBarreira == 0 or foraAbrigo == 0:
         return True
     return False
 

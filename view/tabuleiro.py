@@ -1,4 +1,4 @@
-__all__ = ['c', 'updateJogador', 'Enable', 'lancaDado', 'Dado1', 'Dado2', 'Dado3', 'Dado4', 'Dado5', 'Dado6']
+__all__ = ['c', 'updateJogador', 'Enable', 'lancaDado', 'Dado1', 'Dado2', 'Dado3', 'Dado4', 'Dado5', 'Dado6', 'lancamento']
 
 from tkinter import *
 from tkinter import ttk
@@ -33,8 +33,8 @@ def CheckPeca(peca):
     global n
     if event_handler.pos != [None, None]:
         if peca.casaX == event_handler.pos[0] and peca.casaY == event_handler.pos[1]:
-            if game_rules.CheckBarreiraSupremo(n) == False:
-                if game_rules.CheckBarreira(peca, n) == False:
+            if game_rules.CheckSupremo(n) == False:
+                if game_rules.CheckBarreira(peca, n) == False and game_rules.CheckAbrigo(peca, n) == False:
                     posicoes = MovePeca(peca,n)
                     if posicoes != [peca.casaX, peca.casaY]:
                         c.move(peca.tag, (posicoes[0] - peca.casaX) * 55, (posicoes[1] - peca.casaY) * 55)
@@ -45,7 +45,7 @@ def CheckPeca(peca):
                         if game_rules.CheckWin() == True:
                             game_rules.SomaPontos()
                             return
-            
+
                     game_rules.check6(n)
             else:
                 if game_rules.vez == 4:
