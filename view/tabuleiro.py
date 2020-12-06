@@ -1,4 +1,4 @@
-__all__ = ['c', 'updateJogador', 'Enable', 'lancaDado', 'Dado1', 'Dado2', 'Dado3', 'Dado4', 'Dado5', 'Dado6', 'lancamento']
+__all__ = ['c', 'updateJogador', 'Enable', 'lancaDado', 'Dado1', 'Dado2', 'Dado3', 'Dado4', 'Dado5', 'Dado6', 'lancamento', 'MovePeca']
 
 from tkinter import *
 from tkinter import ttk
@@ -134,6 +134,7 @@ def lancamento(valor):
     Dado6.configure(state = DISABLED)
     salvar.configure(state = DISABLED)
     game_rules.check5(n)
+    game_rules.check6Barreira(n)
 
     
 

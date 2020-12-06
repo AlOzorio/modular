@@ -1,4 +1,4 @@
-__all__ = ['novoJogo', 'rolaDado', 'pecasDic', 'vez', 'Captura','lastMoved', 'check5', 'CheckBarreira', 'CheckSupremo', 'CheckWin', 'SomaPontos', 'CheckAbrigo']
+__all__ = ['novoJogo', 'rolaDado', 'pecasDic', 'vez', 'Captura','lastMoved', 'check5', 'CheckBarreira', 'CheckSupremo', 'CheckWin', 'SomaPontos', 'CheckAbrigo', 'check6Barreira']
 
 import random
 from view import tabuleiro
@@ -159,6 +159,33 @@ def rolaDado():
     resultado = random.randint(1,6)
     return resultado
 
+def check6Barreira(n):
+    global vez
+    cont = 0
+    if n == 6:
+        for peca1 in pecasDic[vez - 1]:
+            for peca2 in pecasDic[vez - 1]:
+                if peca1.tag != peca2.tag and peca1.casasAndadas == peca2.casasAndadas and peca1.casasAndadas != -1 and peca2.casasAndadas != -1:
+                    if cont == 0:
+                        pecaToMove = peca1
+                        cont += 1
+                    else:
+                        if pecaToMove.casasAndadas < peca1.casasAndadas:
+                            pecaToMove = peca1
+                            cont += 1
+                    
+    posicoes = tabuleiro.MovePeca(pecaToMove, n)
+    if posicoes != [pecaToMove.casaX, pecaToMove.casaY]:
+        tabuleiro.c.move(pecaToMove.tag, (posicoes[0] - pecaToMove.casaX) * 55, (posicoes[1] - pecaToMove.casaY) * 55)
+        pecaToMove.casaX = posicoes[0]
+        pecaToMove.casaY = posicoes[1]
+        lastMoved = pecaToMove
+        Captura(pecaToMove)
+    check6(n)
+    tabuleiro.Enable()
+    
+    
+
 def check6(resultado):
     global vez, consecutivos, lastMoved
     if resultado == 6:
@@ -186,6 +213,7 @@ def check6(resultado):
 def check5(resultado):
     global vez
     cores = ['red4', 'dark green', 'goldenrod1', 'midnight blue']
+    temGente = False
     if resultado == 5:
         for peca in pecasDic[vez - 1]:
             if peca.casaX == peca.posIni[0] and peca.casaY == peca.posIni[1]:
@@ -205,18 +233,24 @@ def check5(resultado):
                     movX = 2 
                     movY = 7
                 
-                tabuleiro.c.delete(peca.tag)
-                peca.casaX = movX
-                peca.casaY = movY
-                peca.casasAndadas = 0
-                tabuleiro.c.create_oval((movX-1) * 55 + 15, (movY-1) * 55 + 15, 55*(movX-1) + 60, 55*(movY-1) + 60, outline='gray4',width=2,fill=cores[vez - 1], tag = peca.tag) 
-                Captura(peca)
-                if vez == 4:
-                    vez = 1
-                else:
-                    vez += 1
-                tabuleiro.Enable()
-                break
+                for peca2 in pecasDic[vez - 1]:
+                    if peca2.casaX == movX and peca2.casaY == movY:
+                        temGente = True
+                
+                if temGente == False:
+                    tabuleiro.c.delete(peca.tag)
+                    peca.casaX = movX
+                    peca.casaY = movY
+                    peca.casasAndadas = 0
+                    tabuleiro.c.create_oval((movX-1) * 55 + 15, (movY-1) * 55 + 15, 55*(movX-1) + 60, 55*(movY-1) + 60, outline='gray4',width=2,fill=cores[vez - 1], tag = peca.tag)
+                    Captura(peca)
+                    
+                    if vez == 4:
+                        vez = 1
+                    else:
+                        vez += 1
+                    tabuleiro.Enable()
+                    break
     else:
         for peca in pecasDic[vez - 1]:
             if peca.casaX != peca.posIni[0] and peca.casaY != peca.posIni[1]:
