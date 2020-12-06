@@ -1,4 +1,4 @@
-__all__ = ['c', 'updateJogador', 'Enable', 'lancaDado', 'Dado1', 'Dado2', 'Dado3', 'Dado4', 'Dado5', 'Dado6', 'lancamento', 'MovePeca']
+__all__ = ['c', 'updateJogador', 'Enable', 'desenhaAbrigo','desenhaBarreira', 'lancaDado', 'Dado1', 'Dado2', 'Dado3', 'Dado4', 'Dado5', 'Dado6', 'lancamento', 'MovePeca']
 
 from tkinter import *
 from tkinter import ttk
@@ -233,6 +233,17 @@ def drawBoard():
     w = c.create_window(1027.5,710, window=Dado6,anchor=W)
     
     mainloop()
+
+def desenhaBarreira(peca1):
+    global cores
+    cores = ['red4', 'dark green', 'goldenrod1', 'midnight blue']
+    c.create_oval(55*(peca1.casaX-1) + 15, 55*(peca1.casaY-1) + 15, 55*(peca1.casaX-1) + 60, 55*(peca1.casaY-1) + 60,outline=cores[peca1.cor],width=3,fill='gray97', tag = 'barreira')
+    c.create_oval(55*(peca1.casaX-1) + 20, 55*(peca1.casaY-1) + 20, 55*(peca1.casaX-1) + 55, 55*(peca1.casaY-1) + 55,outline=cores[peca1.cor],width=1,fill=cores[peca1.cor], tag = 'barreira')
+
+def desenhaAbrigo(peca1, peca2):
+    global cores
+    cores = ['red4', 'dark green', 'goldenrod1', 'midnight blue']
+    c.create_oval(55*(peca1.casaX-1) + 15, 55*(peca1.casaY-1) + 15, 55*(peca1.casaX-1) + 60, 55*(peca1.casaY-1) + 60,outline=cores[peca2.cor],width=10,fill=cores[peca1.cor], tag = 'abrigo')
 
 def desenha():
     global turno, cores, xis

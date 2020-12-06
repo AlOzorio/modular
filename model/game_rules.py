@@ -92,9 +92,10 @@ def CheckAbrigo(peca, resultado):
     if caminho[peca.casasAndadas + resultado] in abrigos:
         abrigoAtual = caminho[peca.casasAndadas + resultado]
         for jogadores in pecasDic:
-            for peca in jogadores:
-                if peca.casaX == abrigoAtual[0] and peca.casaY == abrigoAtual[1]:
+            for peao in jogadores:
+                if peao.casaX == abrigoAtual[0] and peao.casaY == abrigoAtual[1]:
                     cont += 1
+                    tabuleiro.desenhaAbrigo(peao, peca)
     if cont >= 2:
         return True
     
@@ -142,6 +143,7 @@ def CheckBarreira(peca, resultado):
                 for item in container:
                     if item.casaX == caminho[i][0] and item.casaY == caminho[i][1]:
                         cont += 1
+                        tabuleiro.desenhaBarreira(item)
                 if cont >= 2:
                     return True
                 cont = 0
@@ -162,6 +164,7 @@ def rolaDado():
 def check6Barreira(n):
     global vez
     cont = 0
+    pecaToMove = Peca(10, 10, "ciano", -10, [10, 10], 10)
     if n == 6:
         for peca1 in pecasDic[vez - 1]:
             for peca2 in pecasDic[vez - 1]:
