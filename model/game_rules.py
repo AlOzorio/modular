@@ -22,22 +22,22 @@ class Peca:
         self.posIni = posIni
         self.cor = cor
 
-vermelho1 = Peca(1.85, 1.85, "vermelho1", 0, [1.85, 1.85], 0)
-vermelho2 = Peca(4.78, 1.85, "vermelho2", 0, [4.78, 1.85], 0)
-vermelho3 = Peca(1.85, 4.78, "vermelho3", 0, [1.85, 4.78], 0)
-vermelho4 = Peca(4.78, 4.78, "vermelho4", 0, [4.78, 4.78], 0)
-verde1 = Peca(10.85, 1.85, "verde1", 0, [10.85, 1.85], 1) 
-verde2 = Peca(13.78, 1.85, "verde2", 0, [13.78, 1.85], 1) 
-verde3 = Peca(10.85, 4.78, "verde3", 0, [10.85, 4.78], 1) 
-verde4 = Peca(13.78, 4.78, "verde4", 0, [13.78, 4.78], 1) 
-amarelo1 = Peca(10.85, 10.85, "amarelo1", 0, [10.85, 10.85], 2) 
-amarelo2 = Peca(13.78, 10.85, "amarelo2", 0, [13.78, 10.85], 2) 
-amarelo3 = Peca(10.85, 13.78, "amarelo3", 0, [10.85, 13.78], 2) 
-amarelo4 = Peca(13.78, 13.78, "amarelo4", 0, [13.78, 13.78], 2) 
-azul1 = Peca(1.85, 10.85, "azul1", 0, [1.85, 10.85], 3) 
-azul2 = Peca(4.78, 10.85, "azul2", 0, [4.78, 10.85], 3) 
-azul3 = Peca(1.85, 13.78, "azul3", 0, [1.85, 13.78], 3) 
-azul4 = Peca(4.78, 13.78, "azul4", 0, [4.78, 13.78], 3) 
+vermelho1 = Peca(1.85, 1.85, "vermelho1", -1, [1.85, 1.85], 0)
+vermelho2 = Peca(4.78, 1.85, "vermelho2", -1, [4.78, 1.85], 0)
+vermelho3 = Peca(1.85, 4.78, "vermelho3", -1, [1.85, 4.78], 0)
+vermelho4 = Peca(4.78, 4.78, "vermelho4", -1, [4.78, 4.78], 0)
+verde1 = Peca(10.85, 1.85, "verde1", -1, [10.85, 1.85], 1) 
+verde2 = Peca(13.78, 1.85, "verde2", -1, [13.78, 1.85], 1) 
+verde3 = Peca(10.85, 4.78, "verde3", -1, [10.85, 4.78], 1) 
+verde4 = Peca(13.78, 4.78, "verde4", -1, [13.78, 4.78], 1) 
+amarelo1 = Peca(10.85, 10.85, "amarelo1", -1, [10.85, 10.85], 2) 
+amarelo2 = Peca(13.78, 10.85, "amarelo2", -1, [13.78, 10.85], 2) 
+amarelo3 = Peca(10.85, 13.78, "amarelo3", -1, [10.85, 13.78], 2) 
+amarelo4 = Peca(13.78, 13.78, "amarelo4", -1, [13.78, 13.78], 2) 
+azul1 = Peca(1.85, 10.85, "azul1", -1, [1.85, 10.85], 3) 
+azul2 = Peca(4.78, 10.85, "azul2", -1, [4.78, 10.85], 3) 
+azul3 = Peca(1.85, 13.78, "azul3", -1, [1.85, 13.78], 3) 
+azul4 = Peca(4.78, 13.78, "azul4", -1, [4.78, 13.78], 3) 
 
 pecasDic = [[vermelho1, vermelho2, vermelho3, vermelho4], [verde1, verde2, verde3, verde4], [amarelo1, amarelo2, amarelo3, amarelo4], [azul1, azul2, azul3, azul4]]
 
@@ -134,6 +134,7 @@ def check6(resultado):
             tabuleiro.c.move(lastMoved.tag, (lastMoved.posIni[0]-lastMoved.casaX)*55, (lastMoved.posIni[1]-lastMoved.casaY)*55)
             lastMoved.casaX = lastMoved.posIni[0]
             lastMoved.casaY = lastMoved.posIni[1]
+            lastMoved.casasAndadas = -1
             if vez == 4:
                 vez = 1
             else:
@@ -172,6 +173,7 @@ def check5(resultado):
                 tabuleiro.c.delete(peca.tag)
                 peca.casaX = movX
                 peca.casaY = movY
+                peca.casasAndadas = 0
                 tabuleiro.c.create_oval((movX-1) * 55 + 15, (movY-1) * 55 + 15, 55*(movX-1) + 60, 55*(movY-1) + 60, outline='gray4',width=2,fill=cores[vez - 1], tag = peca.tag) 
                 if vez == 4:
                     vez = 1
@@ -206,6 +208,7 @@ def Captura(peao):
                         tabuleiro.c.create_oval((peca.posIni[0]-1) * 55 + 15, (peca.posIni[1]-1) * 55 + 15, 55*(peca.posIni[0]-1) + 60, 55*(peca.posIni[1]-1) + 60, outline='gray4',width=2,fill=cores[peca.cor], tag = peca.tag)  
                         peca.casaX = peca.posIni[0]
                         peca.casaY = peca.posIni[1]
+                        peca.casasAndadas = -1
                         return
 
 

@@ -58,14 +58,17 @@ def MovePeca(peca, dado):
     if peca.casasAndadas >= 58:
         peca.casasAndadas = 58
 
-    if peca in game_rules.pecasDic[0]:
-        return game_rules.caminhoVermelho[peca.casasAndadas]
-    elif peca in game_rules.pecasDic[1]:
-        return game_rules.caminhoVerde[peca.casasAndadas]
-    elif peca in game_rules.pecasDic[2]:
-        return game_rules.caminhoAmarelo[peca.casasAndadas]
+    if peca.casasAndadas == -1:
+        return peca.posIni
     else:
-        return game_rules.caminhoAzul[peca.casasAndadas]
+        if peca in game_rules.pecasDic[0]:
+            return game_rules.caminhoVermelho[peca.casasAndadas]
+        elif peca in game_rules.pecasDic[1]:
+            return game_rules.caminhoVerde[peca.casasAndadas]
+        elif peca in game_rules.pecasDic[2]:
+            return game_rules.caminhoAmarelo[peca.casasAndadas]
+        else:
+            return game_rules.caminhoAzul[peca.casasAndadas]
     
                     
 
@@ -89,14 +92,27 @@ def Load():
     input = filedialog.askopenfile(initialdir = ".", title = "Abrir arquivo", filetypes = data)
     print(input)
     game_rules.vez = int(input.readline())
+
+    for jogador in game_rules.pecasDic:
+        for peca in jogador:
+            peca.casasAndadas = int(input.readline())
+            posicoes = MovePeca(peca, 0)
+            peca.casaX = posicoes[0]
+            peca.casaY = posicoes[1]
+    
+    desenha()
     Enable()
     
 
 def Save():
     data = [("text files","*.txt"),("all files", "*.*")]
     file = asksaveasfile(title = "Salvar como", initialdir = ".", filetypes = data, defaultextension = ".txt")
-    #file.write(str(game_rules.pecasDic)+'\n')
-    file.write(str(game_rules.vez))
+    file.write(str(game_rules.vez)+'\n')
+
+    for jogador in game_rules.pecasDic:
+        for peca in jogador:
+            file.write(str(peca.casasAndadas)+'\n')
+    
     print(file)
     
 def lancamento(valor):
