@@ -254,7 +254,7 @@ def check5(resultado):
                     break
     else:
         for peca in pecasDic[vez - 1]:
-            if peca.casaX != peca.posIni[0] and peca.casaY != peca.posIni[1]:
+            if peca.casaX != peca.posIni[0] and peca.casaY != peca.posIni[1] and peca.casasAndadas != 56:
                 return
             else:
                 if vez == 4:
