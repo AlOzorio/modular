@@ -57,6 +57,7 @@ def CheckPeca(peca):
 def MovePeca(peca, dado):
     peca.casasAndadas += dado
     if peca.casasAndadas > 56:
+        peca.casasAndadas -= dado
         return [peca.casaX, peca.casaY]
 
     if peca.casasAndadas == -1:
@@ -93,7 +94,7 @@ def Load():
     input = filedialog.askopenfile(initialdir = ".", title = "Abrir arquivo", filetypes = data)
     print(input)
     game_rules.vez = int(input.readline())
-
+    deleta()
     for jogador in game_rules.pecasDic:
         for peca in jogador:
             peca.casasAndadas = int(input.readline())

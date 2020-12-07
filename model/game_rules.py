@@ -47,7 +47,7 @@ def CheckWin():
     global vez
     fim = 0
     for item in pecasDic[vez-1]:
-        if item.casasAndadas == len(caminhoVermelho):
+        if item.casasAndadas >= 56:          
             fim += 1
         if fim == 4:
             tabuleiro.lancaDado.configure(state = DISABLED)
@@ -88,13 +88,14 @@ def CheckAbrigo(peca, resultado):
         
     elif vez == 4:
         caminho = caminhoAzul
-        
-    if caminho[peca.casasAndadas + resultado] in abrigos:
-        abrigoAtual = caminho[peca.casasAndadas + resultado]
-        for jogadores in pecasDic:
-            for peao in jogadores:
-                if peao.casaX == abrigoAtual[0] and peao.casaY == abrigoAtual[1]:
-                    cont += 1
+
+    if peca.casasAndadas + resultado < len(caminho):   
+        if caminho[peca.casasAndadas + resultado] in abrigos:
+            abrigoAtual = caminho[peca.casasAndadas + resultado]
+            for jogadores in pecasDic:
+                for peao in jogadores:
+                    if peao.casaX == abrigoAtual[0] and peao.casaY == abrigoAtual[1]:
+                        cont += 1
     if cont >= 2:
         return True
     
@@ -182,8 +183,7 @@ def check6Barreira(n):
             pecaToMove.casaY = posicoes[1]
             lastMoved = pecaToMove
             Captura(pecaToMove)
-        check6(n)
-        tabuleiro.Enable()
+            tabuleiro.Enable()
     
     
 
@@ -191,9 +191,9 @@ def check6(resultado):
     global vez, consecutivos, lastMoved
     if resultado == 6:
         consecutivos += 1
-        if consecutivos == 3:
+        if consecutivos >= 3:
             consecutivos = 0
-            if lastMoved.casasAndadas < len(caminhoVermelho):
+            if lastMoved.casasAndadas < 56:
                 tabuleiro.c.move(lastMoved.tag, (lastMoved.posIni[0]-lastMoved.casaX)*55, (lastMoved.posIni[1]-lastMoved.casaY)*55)
                 lastMoved.casaX = lastMoved.posIni[0]
                 lastMoved.casaY = lastMoved.posIni[1]
@@ -271,7 +271,6 @@ def Captura(peao):
         for peca in jogadores:
             if peao.casaX == peca.casaX and peao.casaY == peca.casaY:
                 if peca not in pecasDic[vez-1]:
-                    print(vez)
                     if (peca.casaX == 7 and peca.casaY == 2) or (peca.casaX == 14 and peca.casaY == 7) or (peca.casaX == 9 and peca.casaY == 14) or (peca.casaX == 2 and peca.casaY == 9):
                        return
                     elif peca.cor == 0 and peca.casaX == 2 and peca.casaY == 7:
